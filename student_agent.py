@@ -7,13 +7,13 @@ import gym
 '''with open("q_table_18000.pkl", "rb") as file:
     q_table = pickle.load(file)'''
 
-with open("q_table_2_20000_1.pkl", "rb") as file:
+'''with open("q_table_2_20000_1.pkl", "rb") as file:
     q_table_1 = pickle.load(file)
 
 with open("q_table_2_20000_2.pkl", "rb") as file:
-    q_table_2 = pickle.load(file)
+    q_table_2 = pickle.load(file)'''
 
-q_table = dict()
+'''q_table = dict()
 for i, (x, y) in enumerate(q_table_1.items()):
     if i % 40 == 0:
         q_table[x] = y
@@ -21,7 +21,7 @@ for i, (x, y) in enumerate(q_table_1.items()):
 for i, (x, y) in enumerate(q_table_2.items()):
     if i % 40 == 0:
         q_table[x] = y
-#del q_table_2
+#del q_table_2'''
 
 with open("q_table_18000.pkl", "rb") as file:
     q_table = pickle.load(file)
