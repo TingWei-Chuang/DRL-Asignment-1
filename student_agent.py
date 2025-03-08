@@ -10,7 +10,7 @@ with open("q_table_2_20000_1.pkl", "rb") as file:
 with open("q_table_2_20000_2.pkl", "rb") as file:
     q_table_2 = pickle.load(file)
 
-q_table = q_table_1 | q_table_2
+q_table = {**q_table_1, **q_table_2}
 
 def get_state(obs):
     taxi_row, taxi_col, station_0_row, station_0_col, station_1_row, station_1_col, station_2_row, station_2_col, station_3_row, station_3_col, obstacle_north, obstacle_south, obstacle_east, obstacle_west, passenger_look, destination_look  = \
