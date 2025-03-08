@@ -4,13 +4,17 @@ import pickle
 import random
 import gym
 
-with open("q_table_2_20000_1.pkl", "rb") as file:
+with open("q_table_18000.pkl", "rb") as file:
+    q_table = pickle.load(file)
+
+"""with open("q_table_2_20000_1.pkl", "rb") as file:
     q_table_1 = pickle.load(file)
 
 with open("q_table_2_20000_2.pkl", "rb") as file:
-    q_table_2 = pickle.load(file)
+    q_table_2 = pickle.load(file)"""
 
-q_table = {**q_table_1, **q_table_2}
+#q_table = {**q_table_1, **q_table_2}
+print("load OK")
 
 def get_state(obs):
     taxi_row, taxi_col, station_0_row, station_0_col, station_1_row, station_1_col, station_2_row, station_2_col, station_3_row, station_3_col, obstacle_north, obstacle_south, obstacle_east, obstacle_west, passenger_look, destination_look  = \
@@ -34,12 +38,12 @@ def get_state(obs):
         dir(taxi_row, station_3_row),
         dir(taxi_col, station_3_col)
     ]
-    state += [
+    '''state += [
         manhattan(taxi_row, taxi_col, station_0_row, station_0_col),
         manhattan(taxi_row, taxi_col, station_1_row, station_1_col),
         manhattan(taxi_row, taxi_col, station_2_row, station_2_col),
         manhattan(taxi_row, taxi_col, station_3_row, station_3_col),
-    ]
+    ]'''
     state += [
         obstacle_north,
         obstacle_south,
@@ -55,7 +59,7 @@ def get_state(obs):
     if not passenger_look:
         pickup = False
     else:
-        pickup = np.random.choice([True, False], p=[0.9, 0.1])
+        pickup = np.random.choice([True, False])#, p=[0.9, 0.1])
     state += [
         pickup
     ]
