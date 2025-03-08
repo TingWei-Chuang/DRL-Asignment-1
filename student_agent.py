@@ -4,9 +4,9 @@ import pickle
 import random
 import gym
 
-with open("q_table_20000.pkl", "rb") as file:
+with open("q_table_18000.pkl", "rb") as file:
     q_table = pickle.load(file)
-#
+##
 def get_state(obs):
     taxi_row, taxi_col, station_0_row, station_0_col, station_1_row, station_1_col, station_2_row, station_2_col, station_3_row, station_3_col, obstacle_north, obstacle_south, obstacle_east, obstacle_west, passenger_look, destination_look  = \
         obs[0], obs[1], obs[2], obs[3], obs[4], obs[5], obs[6], obs[7], obs[8], obs[9], obs[10], obs[11], obs[12], obs[13], obs[14], obs[15]
