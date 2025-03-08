@@ -10,10 +10,10 @@ import gym
 with open("q_table_2_20000_1.pkl", "rb") as file:
     q_table_1 = pickle.load(file)
 
-with open("q_table_2_20000_2.pkl", "rb") as file:
-    q_table_2 = pickle.load(file)
+'''with open("q_table_2_20000_2.pkl", "rb") as file:
+    q_table_2 = pickle.load(file)'''
 
-q_table = {**q_table_1, **q_table_2}
+#q_table = {**q_table_1, **q_table_2}
 print("load OK")
 
 with open("q_table_18000.pkl", "rb") as file:
