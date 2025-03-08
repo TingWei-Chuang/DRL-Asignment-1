@@ -14,11 +14,13 @@ with open("q_table_2_20000_2.pkl", "rb") as file:
     q_table_2 = pickle.load(file)
 
 q_table = dict()
-for x, y in q_table_1.items():
-    q_table[x] = y
+for i, (x, y) in enumerate(q_table_1.items()):
+    if i % 10 == 0:
+        q_table[x] = y
 #del q_table_1
-for x, y in q_table_2.items():
-    q_table[x] = y
+for i, (x, y) in enumerate(q_table_2.items()):
+    if i % 10 == 0:
+        q_table[x] = y
 #del q_table_2
 
 '''with open("q_table_18000.pkl", "rb") as file:
