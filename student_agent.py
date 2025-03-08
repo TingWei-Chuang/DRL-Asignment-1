@@ -16,10 +16,10 @@ with open("q_table_2_20000_2.pkl", "rb") as file:
 q_table = dict()
 for x, y in q_table_1.items():
     q_table[x] = y
-del q_table_1
+#del q_table_1
 for x, y in q_table_2.items():
     q_table[x] = y
-del q_table_2
+#del q_table_2
 
 '''with open("q_table_18000.pkl", "rb") as file:
     q_table = pickle.load(file)'''
