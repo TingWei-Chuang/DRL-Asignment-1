@@ -15,11 +15,11 @@ with open("q_table_2_20000_2.pkl", "rb") as file:
 
 q_table = dict()
 for i, (x, y) in enumerate(q_table_1.items()):
-    if i % 10 == 0:
+    if i % 40 == 0:
         q_table[x] = y
 #del q_table_1
 for i, (x, y) in enumerate(q_table_2.items()):
-    if i % 10 == 0:
+    if i % 40 == 0:
         q_table[x] = y
 #del q_table_2
 
