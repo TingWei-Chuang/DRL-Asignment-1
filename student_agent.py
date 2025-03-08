@@ -59,7 +59,7 @@ def get_state(obs):
     if not passenger_look:
         pickup = False
     else:
-        pickup = np.random.choice([True, False])#, p=[0.9, 0.1])
+        pickup = np.random.choice([True, False], p=[0.9, 0.1])
     state += [
         pickup
     ]
