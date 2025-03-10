@@ -23,7 +23,7 @@ for i, (x, y) in enumerate(q_table_2.items()):
         q_table[x] = y
 #del q_table_2'''
 
-with open("q_table_.pkl", "rb") as file:
+with open("q_table_2.pkl", "rb") as file:
     q_table = pickle.load(file)
 
 def get_state(obs):
