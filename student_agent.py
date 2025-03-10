@@ -104,6 +104,11 @@ def get_action(obs):
     else:
         #probs = softmax(q_table[state])
         #return np.random.choice(6, p=probs)
-        return np.argmax(q_table[state])
+        if np.random.rand() < 0.135:
+            action = np.random.choice(6)
+        else:
+            action = np.argmax(q_table[state])  
+        #if np.random.rand() < 
+        #return np.argmax(q_table[state])
     # You can submit this random agent to evaluate the performance of a purely random strategy.
 
