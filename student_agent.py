@@ -86,6 +86,11 @@ def get_state(obs):
     ]"""
     return tuple(state)
 
+def softmax(x):
+    """Compute softmax values for each set of scores in x."""
+    exp_x = np.exp(x - np.max(x))  # Subtract max(x) for numerical stability
+    return exp_x / np.sum(exp_x)
+
 def get_action(obs):
     
     # TODO: Train your own agent
@@ -97,6 +102,8 @@ def get_action(obs):
     if state not in q_table:
         return np.random.choice(6) # Choose a random action
     else:
-        return np.argmax(q_table[state])
+        probs = softmax(q_table[state])
+        return np.random.choice(6, p=probs)
+        #return np.argmax(q_table[state])
     # You can submit this random agent to evaluate the performance of a purely random strategy.
 
