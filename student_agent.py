@@ -23,7 +23,7 @@ for i, (x, y) in enumerate(q_table_2.items()):
         q_table[x] = y
 #del q_table_2'''
 
-with open("q_table_2.pkl", "rb") as file:
+with open("q_table_2_1.pkl", "rb") as file:
     q_table = pickle.load(file)
 
 def get_state(obs):
@@ -102,8 +102,8 @@ def get_action(obs):
     if state not in q_table:
         return np.random.choice(6) # Choose a random action
     else:
-        probs = softmax(q_table[state])
-        return np.random.choice(6, p=probs)
-        #return np.argmax(q_table[state])
+        #probs = softmax(q_table[state])
+        #return np.random.choice(6, p=probs)
+        return np.argmax(q_table[state])
     # You can submit this random agent to evaluate the performance of a purely random strategy.
 
