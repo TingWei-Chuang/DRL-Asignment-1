@@ -23,7 +23,7 @@ for i, (x, y) in enumerate(q_table_2.items()):
         q_table[x] = y
 #del q_table_2'''
 
-with open("q_table_18000.pkl", "rb") as file:
+with open("q_table_.pkl", "rb") as file:
     q_table = pickle.load(file)
 
 def get_state(obs):
@@ -38,6 +38,17 @@ def get_state(obs):
         return 0
     def manhattan(x1, y1, x2, y2):
         return abs(x1 - x2) + abs(y1 - y2)
+    def nearby(x1, y1, x2, y2):
+        if x1 == x2 - 1 and y1 == y2:
+            return 1
+        elif x1 == x2 + 1 and y1 == y2:
+            return 2
+        elif x1 == x2 and y1 == y2 - 1:
+            return 3
+        elif x1 == x2 and y1 == y2 + 1:
+            return 4
+        else:
+            return 0
     state += [
         dir(taxi_row, station_0_row),
         dir(taxi_col, station_0_col),
@@ -48,12 +59,6 @@ def get_state(obs):
         dir(taxi_row, station_3_row),
         dir(taxi_col, station_3_col)
     ]
-    '''state += [
-        manhattan(taxi_row, taxi_col, station_0_row, station_0_col),
-        manhattan(taxi_row, taxi_col, station_1_row, station_1_col),
-        manhattan(taxi_row, taxi_col, station_2_row, station_2_col),
-        manhattan(taxi_row, taxi_col, station_3_row, station_3_col),
-    ]'''
     state += [
         obstacle_north,
         obstacle_south,
@@ -64,15 +69,21 @@ def get_state(obs):
         passenger_look,
         destination_look
     ]
+    state += [
+        nearby(taxi_row, taxi_col, station_0_row, station_0_col),
+        nearby(taxi_row, taxi_col, station_1_row, station_1_col),
+        nearby(taxi_row, taxi_col, station_2_row, station_2_col),
+        nearby(taxi_row, taxi_col, station_3_row, station_3_col)
+    ]
 
-    pickup = False
+    """pickup = False
     if not passenger_look:
         pickup = False
     else:
         pickup = np.random.choice([True, False], p=[0.9, 0.1])
     state += [
         pickup
-    ]
+    ]"""
     return tuple(state)
 
 def get_action(obs):
