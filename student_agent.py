@@ -4,7 +4,7 @@ import pickle
 import random
 import gym
 
-with open("new_qq.pkl", "rb") as file:
+with open("qq.pkl", "rb") as file:
     q_table = pickle.load(file)
 steps = 0
 pickup = False
@@ -82,7 +82,7 @@ def get_action(obs):
     else:
         #p = softmax(q_table[state])
         #action = np.random.choice(6, p=p)        
-        if np.random.rand() < 0.05:
+        if np.random.rand() < 0.1:
             action = np.random.choice(6)
         else:
             action = np.argmax(q_table[state])
