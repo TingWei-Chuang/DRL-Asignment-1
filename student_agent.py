@@ -64,6 +64,8 @@ def softmax(x):
     exp_x = np.exp(x - np.max(x))  # Subtract max(x) for numerical stability
     return exp_x / np.sum(exp_x)
 
+global pickup
+global steps
 pickup = False
 steps = 0
 
