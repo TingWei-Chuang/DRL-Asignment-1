@@ -4,7 +4,7 @@ import pickle
 import random
 import gym
 
-with open("q_table_2_1.pkl", "rb") as file:
+with open("policy_q.pkl", "rb") as file:
     q_table = pickle.load(file)
 
 def get_state(obs):
@@ -75,9 +75,12 @@ def get_action(obs):
     if state not in q_table:
         return np.random.choice(6) # Choose a random action
     else:
+        p = softmax(q_table[state])
+        action = np.random.choice(6, p=p)
+        '''
         if np.random.rand() < 0.135:
             action = np.random.choice(6)
         else:
-            action = np.argmax(q_table[state])  
+            action = np.argmax(q_table[state])'''
     # You can submit this random agent to evaluate the performance of a purely random strategy.
 
