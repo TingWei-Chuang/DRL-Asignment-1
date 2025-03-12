@@ -82,7 +82,7 @@ def get_action(obs):
     else:
         #p = softmax(q_table[state])
         #action = np.random.choice(6, p=p)        
-        if np.random.rand() < 0.1:
+        if np.random.rand() < 0.05:
             action = np.random.choice(6)
         else:
             action = np.argmax(q_table[state])
