@@ -6,6 +6,8 @@ import gym
 
 with open("policy_q.pkl", "rb") as file:
     q_table = pickle.load(file)
+steps = 0
+pickup = False
 
 def get_state(obs, pickup):
     taxi_row, taxi_col, station_0_row, station_0_col, station_1_row, station_1_col, station_2_row, station_2_col, station_3_row, station_3_col, obstacle_north, obstacle_south, obstacle_east, obstacle_west, passenger_look, destination_look  = \
@@ -64,7 +66,6 @@ def softmax(x):
     exp_x = np.exp(x - np.max(x))  # Subtract max(x) for numerical stability
     return exp_x / np.sum(exp_x)
 
-
 def get_action(obs):
     
     # TODO: Train your own agent
@@ -98,5 +99,3 @@ def get_action(obs):
         steps = 0
     return action
     # You can submit this random agent to evaluate the performance of a purely random strategy.
-get_action.steps = 0
-get_action.pickup = False
