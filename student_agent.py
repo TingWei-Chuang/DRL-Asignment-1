@@ -4,7 +4,7 @@ import pickle
 import random
 import gym
 
-with open("policy_q.pkl", "rb") as file:
+with open("new_qq.pkl", "rb") as file:
     q_table = pickle.load(file)
 steps = 0
 pickup = False
@@ -66,9 +66,6 @@ def softmax(x):
     exp_x = np.exp(x - np.max(x))  # Subtract max(x) for numerical stability
     return exp_x / np.sum(exp_x)
 
-def update_step():
-    steps = steps + 1
-
 def get_action(obs):
     
     # TODO: Train your own agent
@@ -76,7 +73,9 @@ def get_action(obs):
     # NOTE: Keep in mind that your Q-table may not cover all possible states in the testing environment.
     #       To prevent crashes, implement a fallback strategy for missing keys. 
     #       Otherwise, even if your agent performs well in training, it may fail during testing.
-    update_step()
+    global steps
+    global pickup
+    steps += 1
     state = get_state(obs, pickup)
     if state not in q_table:
         action = np.random.choice(6) # Choose a random action
