@@ -7,7 +7,7 @@ import gym
 with open("policy_q.pkl", "rb") as file:
     q_table = pickle.load(file)
 
-def get_state(obs):
+def get_state(obs, pickup):
     taxi_row, taxi_col, station_0_row, station_0_col, station_1_row, station_1_col, station_2_row, station_2_col, station_3_row, station_3_col, obstacle_north, obstacle_south, obstacle_east, obstacle_west, passenger_look, destination_look  = \
         obs[0], obs[1], obs[2], obs[3], obs[4], obs[5], obs[6], obs[7], obs[8], obs[9], obs[10], obs[11], obs[12], obs[13], obs[14], obs[15]
     state = []
@@ -17,8 +17,6 @@ def get_state(obs):
         elif a > b:
             return 1
         return 0
-    def manhattan(x1, y1, x2, y2):
-        return abs(x1 - x2) + abs(y1 - y2)
     def nearby(x1, y1, x2, y2):
         if x1 == x2 - 1 and y1 == y2:
             return 1
@@ -56,13 +54,18 @@ def get_state(obs):
         nearby(taxi_row, taxi_col, station_2_row, station_2_col),
         nearby(taxi_row, taxi_col, station_3_row, station_3_col)
     ]
-
+    state += [
+        pickup
+    ]
     return tuple(state)
 
 def softmax(x):
     """Compute softmax values for each set of scores in x."""
     exp_x = np.exp(x - np.max(x))  # Subtract max(x) for numerical stability
     return exp_x / np.sum(exp_x)
+
+pickup = False
+steps = 0
 
 def get_action(obs):
     
@@ -71,16 +74,30 @@ def get_action(obs):
     # NOTE: Keep in mind that your Q-table may not cover all possible states in the testing environment.
     #       To prevent crashes, implement a fallback strategy for missing keys. 
     #       Otherwise, even if your agent performs well in training, it may fail during testing.
-    state = get_state(obs)
+    steps += 1
+    state = get_state(obs, pickup)
     if state not in q_table:
-        return np.random.choice(6) # Choose a random action
+        action = np.random.choice(6) # Choose a random action
     else:
-        p = softmax(q_table[state])
-        action = np.random.choice(6, p=p)
-        '''
-        if np.random.rand() < 0.135:
+        #p = softmax(q_table[state])
+        #action = np.random.choice(6, p=p)        
+        if np.random.rand() < 0.005:
             action = np.random.choice(6)
         else:
-            action = np.argmax(q_table[state])'''
+            action = np.argmax(q_table[state])
+    if not pickup:
+        at_pickup = state[12] and ((state[0] == 0 and state[1] == 0) or (state[2] == 0 and state[3] == 0) \
+            or (state[4] == 0 and state[5] == 0) or (state[6] == 0 and state[7] == 0))
+        action_pickup = action == 4
+        pickup = at_pickup and action_pickup
+    else:
+        at_destination = state[13] and ((state[0] == 0 and state[1] == 0) or (state[2] == 0 and state[3] == 0) \
+            or (state[4] == 0 and state[5] == 0) or (state[6] == 0 and state[7] == 0))
+        action_drop = action == 5
+        pickup = not(at_destination and action_drop)
+    if steps >= 5000:
+        pickup = False
+        steps = 0
+    return action
     # You can submit this random agent to evaluate the performance of a purely random strategy.
 
