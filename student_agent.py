@@ -64,10 +64,6 @@ def softmax(x):
     exp_x = np.exp(x - np.max(x))  # Subtract max(x) for numerical stability
     return exp_x / np.sum(exp_x)
 
-global pickup
-global steps
-pickup = False
-steps = 0
 
 def get_action(obs):
     
@@ -102,4 +98,5 @@ def get_action(obs):
         steps = 0
     return action
     # You can submit this random agent to evaluate the performance of a purely random strategy.
-
+get_action.steps = 0
+get_action.pickup = False
