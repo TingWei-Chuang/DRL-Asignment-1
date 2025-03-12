@@ -4,7 +4,7 @@ import pickle
 import random
 import gym
 
-with open("new_qq.pkl", "rb") as file:
+with open("qq_no_near.pkl", "rb") as file:
     q_table = pickle.load(file)
 steps = 0
 pickup = False
@@ -80,10 +80,10 @@ def get_action(obs):
     if state not in q_table:
         action = np.random.choice(6) # Choose a random action
     else:
-        n_act = 4
-        if (state[12] or state[13]) and ((state[0] == 0 and state[1] == 0) or (state[2] == 0 and state[3] == 0) \
+        n_act = 6
+        '''if (state[12] or state[13]) and ((state[0] == 0 and state[1] == 0) or (state[2] == 0 and state[3] == 0) \
             or (state[4] == 0 and state[5] == 0) or (state[6] == 0 and state[7] == 0)):
-            n_act = 6
+            n_act = 6'''
         if np.random.rand() < 0.01:
             action = np.random.choice(n_act)
         else:
