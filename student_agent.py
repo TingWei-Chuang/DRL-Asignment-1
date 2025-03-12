@@ -4,25 +4,6 @@ import pickle
 import random
 import gym
 
-'''with open("q_table_18000.pkl", "rb") as file:
-    q_table = pickle.load(file)'''
-
-'''with open("q_table_2_20000_1.pkl", "rb") as file:
-    q_table_1 = pickle.load(file)
-
-with open("q_table_2_20000_2.pkl", "rb") as file:
-    q_table_2 = pickle.load(file)'''
-
-'''q_table = dict()
-for i, (x, y) in enumerate(q_table_1.items()):
-    if i % 40 == 0:
-        q_table[x] = y
-#del q_table_1
-for i, (x, y) in enumerate(q_table_2.items()):
-    if i % 40 == 0:
-        q_table[x] = y
-#del q_table_2'''
-
 with open("q_table_2_1.pkl", "rb") as file:
     q_table = pickle.load(file)
 
@@ -76,14 +57,6 @@ def get_state(obs):
         nearby(taxi_row, taxi_col, station_3_row, station_3_col)
     ]
 
-    """pickup = False
-    if not passenger_look:
-        pickup = False
-    else:
-        pickup = np.random.choice([True, False], p=[0.9, 0.1])
-    state += [
-        pickup
-    ]"""
     return tuple(state)
 
 def softmax(x):
@@ -102,17 +75,9 @@ def get_action(obs):
     if state not in q_table:
         return np.random.choice(6) # Choose a random action
     else:
-        #probs = softmax(q_table[state])
-        #return np.random.choice(6, p=probs)
-        if (obs[0] == 0 and obs[1] == 0) or (obs[2] == 0 and obs[3] == 0) or (obs[4] == 0 and obs[5] == 0) or (obs[6] == 0 and obs[7] == 0) \
-            and obs[12]:
+        if np.random.rand() < 0.135:
             action = np.random.choice(6)
         else:
-            if np.random.rand() < 0.135:
-                action = np.random.choice(6)
-            else:
-                action = np.argmax(q_table[state])  
-        #if np.random.rand() < 
-        #return np.argmax(q_table[state])
+            action = np.argmax(q_table[state])  
     # You can submit this random agent to evaluate the performance of a purely random strategy.
 
