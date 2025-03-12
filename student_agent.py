@@ -84,7 +84,7 @@ def get_action(obs):
         if (state[12] or state[13]) and ((state[0] == 0 and state[1] == 0) or (state[2] == 0 and state[3] == 0) \
             or (state[4] == 0 and state[5] == 0) or (state[6] == 0 and state[7] == 0)):
             n_act = 6
-        if np.random.rand() < 0.05:
+        if np.random.rand() < 0.01:
             action = np.random.choice(n_act)
         else:
             action = np.argmax(q_table[state][:n_act])
