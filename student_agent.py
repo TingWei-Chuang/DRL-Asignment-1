@@ -54,6 +54,9 @@ def get_state(obs):
         nearby(taxi_row, taxi_col, station_2_row, station_2_col),
         nearby(taxi_row, taxi_col, station_3_row, station_3_col)
     ]
+    state += [
+        prevAction
+    ]
     return tuple(state)
 
 def get_action(obs):
