@@ -4,14 +4,24 @@ import pickle
 import random
 import gym
 
-with open("qq_no_near.pkl", "rb") as file:
+with open("qqq.pkl", "rb") as file:
     q_table = pickle.load(file)
 steps = 0
 pickup = False
+visitsA = 0
+visitsB = 0
 
-def get_state(obs, pickup):
+def get_state(obs, pickup, visitsA, visitsB):
+    #, station_3_row, station_3_col
     taxi_row, taxi_col, station_0_row, station_0_col, station_1_row, station_1_col, station_2_row, station_2_col, station_3_row, station_3_col, obstacle_north, obstacle_south, obstacle_east, obstacle_west, passenger_look, destination_look  = \
         obs[0], obs[1], obs[2], obs[3], obs[4], obs[5], obs[6], obs[7], obs[8], obs[9], obs[10], obs[11], obs[12], obs[13], obs[14], obs[15]
+    stations = [(station_0_row, station_0_col), (station_1_row, station_1_col), (station_2_row, station_2_col), (station_3_row, station_3_col)]
+    if not pickup:
+        station_row = stations[visitsA][0]
+        station_col = stations[visitsA][1]
+    else:
+        station_row = stations[visitsB][0]
+        station_col = stations[visitsB][1]
     state = []
     def dir(a, b):
         if a < b:
@@ -31,14 +41,8 @@ def get_state(obs, pickup):
         else:
             return 0
     state += [
-        dir(taxi_row, station_0_row),
-        dir(taxi_col, station_0_col),
-        dir(taxi_row, station_1_row),
-        dir(taxi_col, station_1_col),
-        dir(taxi_row, station_2_row),
-        dir(taxi_col, station_2_col),
-        dir(taxi_row, station_3_row),
-        dir(taxi_col, station_3_col)
+        dir(taxi_row, station_row),
+        dir(taxi_col, station_col),
     ]
     state += [
         obstacle_north,
@@ -51,10 +55,7 @@ def get_state(obs, pickup):
         destination_look
     ]
     state += [
-        nearby(taxi_row, taxi_col, station_0_row, station_0_col),
-        nearby(taxi_row, taxi_col, station_1_row, station_1_col),
-        nearby(taxi_row, taxi_col, station_2_row, station_2_col),
-        nearby(taxi_row, taxi_col, station_3_row, station_3_col)
+        nearby(taxi_row, taxi_col, station_row, station_col)
     ]
     state += [
         pickup
@@ -75,31 +76,43 @@ def get_action(obs):
     #       Otherwise, even if your agent performs well in training, it may fail during testing.
     global steps
     global pickup
+    global visitsA
+    global visitsB
     steps += 1
     state = get_state(obs, pickup)
     if state not in q_table:
         action = np.random.choice(6) # Choose a random action
     else:
         n_act = 6
-        '''if (state[12] or state[13]) and ((state[0] == 0 and state[1] == 0) or (state[2] == 0 and state[3] == 0) \
-            or (state[4] == 0 and state[5] == 0) or (state[6] == 0 and state[7] == 0)):
-            n_act = 6'''
         if np.random.rand() < 0.01:
             action = np.random.choice(n_act)
         else:
             action = np.argmax(q_table[state][:n_act])
     if not pickup:
-        at_pickup = state[12] and ((state[0] == 0 and state[1] == 0) or (state[2] == 0 and state[3] == 0) \
-            or (state[4] == 0 and state[5] == 0) or (state[6] == 0 and state[7] == 0))
+        at_station = state[0] == 0 and state[1] == 0
+        at_pickup = state[6] == 1 and at_station
+        not_at_pickup = state[6] != 1 and at_station
         action_pickup = action == 4
-        pickup = at_pickup and action_pickup
+        pickup = at_pickup == True and action_pickup
+        if not_at_pickup:
+            visitsA += 1
     else:
-        at_destination = state[13] and ((state[0] == 0 and state[1] == 0) or (state[2] == 0 and state[3] == 0) \
-            or (state[4] == 0 and state[5] == 0) or (state[6] == 0 and state[7] == 0))
+        at_station = state[0] == 0 and state[1] == 0
+        at_dest = state[7] == 1 and at_station
+        not_at_dest = state[7] != 1 and at_station
         action_drop = action == 5
-        pickup = not(at_destination and action_drop)
+        pickup = not (at_dest and action_drop)
+        if not_at_dest:
+            visitsB += 1
+        if not pickup:
+            pickup = False
+            steps = 0
+            visitsA = 0
+            visitsB = 0
     if steps >= 5000:
         pickup = False
         steps = 0
+        visitsA = 0
+        visitsB = 0
     return action
     # You can submit this random agent to evaluate the performance of a purely random strategy.
