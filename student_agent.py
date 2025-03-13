@@ -4,7 +4,7 @@ import pickle
 import random
 import gym
 
-with open("testq_stable.pkl", "rb") as file:
+with open("testq_stable_s.pkl", "rb") as file:
     q_table = pickle.load(file)
 
 def get_state(obs):
