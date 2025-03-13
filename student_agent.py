@@ -82,6 +82,7 @@ def get_action(obs):
     global pickup
     global visitsA
     global visitsB
+    global prevAction
     steps += 1
     state = get_state(obs, pickup, visitsA, visitsB, prevAction)
     if state not in q_table:
