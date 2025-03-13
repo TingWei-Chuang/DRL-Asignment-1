@@ -29,30 +29,10 @@ def get_state(obs):
         else:
             return 0
     state += [
-        dir(taxi_row, station_0_row),
-        dir(taxi_col, station_0_col),
-        dir(taxi_row, station_1_row),
-        dir(taxi_col, station_1_col),
-        dir(taxi_row, station_2_row),
-        dir(taxi_col, station_2_col),
-        dir(taxi_row, station_3_row),
-        dir(taxi_col, station_3_col)
-    ]
-    state += [
         obstacle_north,
         obstacle_south,
         obstacle_east,
         obstacle_west
-    ]
-    state += [
-        passenger_look,
-        destination_look
-    ]
-    state += [
-        nearby(taxi_row, taxi_col, station_0_row, station_0_col),
-        nearby(taxi_row, taxi_col, station_1_row, station_1_col),
-        nearby(taxi_row, taxi_col, station_2_row, station_2_col),
-        nearby(taxi_row, taxi_col, station_3_row, station_3_col)
     ]
     return tuple(state)
 
