@@ -89,7 +89,7 @@ def get_action(obs):
         action = np.random.choice(6) # Choose a random action
     else:
         n_act = 6
-        if np.random.rand() < 0.0:
+        if np.random.rand() < 0.01:
             action = np.random.choice(n_act)
         else:
             action = np.argmax(q_table[state][:n_act])
