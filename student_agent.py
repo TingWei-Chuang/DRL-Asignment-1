@@ -83,7 +83,7 @@ def get_action(obs):
     global visitsA
     global visitsB
     steps += 1
-    state = get_state(obs, pickup, visitsA, visitsB)
+    state = get_state(obs, pickup, visitsA, visitsB, prevAction)
     if state not in q_table:
         action = np.random.choice(6) # Choose a random action
     else:
