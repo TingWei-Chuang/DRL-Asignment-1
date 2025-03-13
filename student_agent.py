@@ -89,7 +89,7 @@ def get_action(obs):
         action = np.random.choice(6) # Choose a random action
     else:
         n_act = 6
-        p = softmax(1000 * q_table[state])
+        p = softmax(5000 * q_table[state])
         action = np.random.choice(n_act, p=p)
         '''if np.random.rand() < 0.1:
             action = np.random.choice(n_act)
