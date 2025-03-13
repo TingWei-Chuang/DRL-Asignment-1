@@ -96,6 +96,7 @@ def get_action(obs):
         pickup = at_pickup == True and action_pickup
         if not_at_pickup:
             visitsA += 1
+            visitsA = min(visitsA, 3)
     else:
         at_station = state[0] == 0 and state[1] == 0
         at_dest = state[7] == 1 and at_station
@@ -104,12 +105,13 @@ def get_action(obs):
         pickup = not (at_dest and action_drop)
         if not_at_dest:
             visitsB += 1
+            visitsB = min(visitsB, 3)
         if not pickup:
             pickup = False
             steps = 0
             visitsA = 0
             visitsB = 0
-    if steps >= 5000:
+    if steps >= 4999:
         pickup = False
         steps = 0
         visitsA = 0
