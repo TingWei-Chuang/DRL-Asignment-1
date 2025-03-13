@@ -54,13 +54,10 @@ def get_state(obs):
         nearby(taxi_row, taxi_col, station_2_row, station_2_col),
         nearby(taxi_row, taxi_col, station_3_row, station_3_col)
     ]
-    state += [
-        prevAction
-    ]
     return tuple(state)
 
 def get_action(obs):
-    state = get_state(obs, pickup, visitsA, visitsB)
+    state = get_state(obs)
     if state not in q_table:
         action = np.random.choice(6) # Choose a random action
     else:
