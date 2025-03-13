@@ -10,8 +10,9 @@ steps = 0
 pickup = False
 visitsA = 0
 visitsB = 0
+prevAction = 0
 
-def get_state(obs, pickup, visitsA, visitsB):
+def get_state(obs, pickup, visitsA, visitsB, prevAction):
     #, station_3_row, station_3_col
     taxi_row, taxi_col, station_0_row, station_0_col, station_1_row, station_1_col, station_2_row, station_2_col, station_3_row, station_3_col, obstacle_north, obstacle_south, obstacle_east, obstacle_west, passenger_look, destination_look  = \
         obs[0], obs[1], obs[2], obs[3], obs[4], obs[5], obs[6], obs[7], obs[8], obs[9], obs[10], obs[11], obs[12], obs[13], obs[14], obs[15]
@@ -60,6 +61,9 @@ def get_state(obs, pickup, visitsA, visitsB):
     state += [
         pickup
     ]
+    state += [
+        prevAction
+    ]
     return tuple(state)
 
 def softmax(x):
@@ -88,6 +92,7 @@ def get_action(obs):
             action = np.random.choice(n_act)
         else:
             action = np.argmax(q_table[state][:n_act])
+    prevAction = action
     if not pickup:
         at_station = state[0] == 0 and state[1] == 0
         at_pickup = state[6] == 1 and at_station
@@ -111,10 +116,12 @@ def get_action(obs):
             steps = 0
             visitsA = 0
             visitsB = 0
+            prevAction = 0
     if steps >= 4999:
         pickup = False
         steps = 0
         visitsA = 0
         visitsB = 0
+        prevAction = 0
     return action
     # You can submit this random agent to evaluate the performance of a purely random strategy.
