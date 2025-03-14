@@ -86,7 +86,7 @@ def get_action(obs):
     if state not in q_table:
         action = np.random.choice(6) # Choose a random action
     else:
-        if np.random.rand() < 0.00001:
+        if np.random.rand() < 0.0001:
             action = np.random.choice(6)
         else:
             action = np.argmax(q_table[state])
