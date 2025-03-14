@@ -4,7 +4,7 @@ import pickle
 import random
 import gym
 
-with open("qqqq.pkl", "rb") as file:
+with open("qqqqq.pkl", "rb") as file:
     q_table = pickle.load(file)
 steps = 0
 pickup = False
