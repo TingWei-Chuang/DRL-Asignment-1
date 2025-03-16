@@ -86,10 +86,12 @@ def get_action(obs):
     if state not in q_table:
         action = np.random.choice(6) # Choose a random action
     else:
-        if np.random.rand() < 0.000:
+        p = softmax(q_table[state])
+        action = np.random.choice(6, p=p)
+        '''if np.random.rand() < 0.000:
             action = np.random.choice(6)
         else:
-            action = np.argmax(q_table[state])
+            action = np.argmax(q_table[state])'''
     prevAction = action
     if not pickup:
         at_station = state[0] == 0 and state[1] == 0
