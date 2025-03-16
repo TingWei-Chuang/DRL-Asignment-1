@@ -4,7 +4,7 @@ import pickle
 import random
 import gym
 
-with open("qqqqq.pkl", "rb") as file:
+with open("qqqqqq.pkl", "rb") as file:
     q_table = pickle.load(file)
 steps = 0
 pickup = False
@@ -60,6 +60,9 @@ def get_state(obs, pickup, visitsA, visitsB, prevAction):
     ]
     state += [
         pickup
+    ]
+    state += [
+        prevAction
     ]
 
     return tuple(state)
@@ -117,7 +120,7 @@ def get_action(obs):
             visitsA = 0
             visitsB = 0
             prevAction = 0
-    if steps >= 4999:
+    if steps >= 5000:
         pickup = False
         steps = 0
         visitsA = 0
