@@ -121,6 +121,7 @@ def get_action(obs):
         if not pickup:
             print("FINISH", flush=True)
             print(at_dest, action_drop, steps, flush=True)
+            print((obs[0], obs[1]), (obs[2], obs[3]), (obs[4], obs[5]), (obs[6], obs[7]), (obs[8], obs[9]), (obs[14], obs[15]), flush=True)
             pickup = False
             steps = 0
             visitsA = 0
