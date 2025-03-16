@@ -108,6 +108,7 @@ def get_action(obs):
             visitsA = min(visitsA, 3)
         if pickup:
             print("PICKUP", flush=True)
+            return 4
     else:
         at_station = state[0] == 0 and state[1] == 0
         at_dest = state[7] == 1 and at_station
@@ -127,6 +128,7 @@ def get_action(obs):
             visitsA = 0
             visitsB = 0
             prevAction = 0
+            return 5
     if steps >= 5000:
         pickup = False
         steps = 0
