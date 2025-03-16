@@ -101,11 +101,13 @@ def get_action(obs):
         at_pickup = state[6] == 1 and at_station
         not_at_pickup = state[6] != 1 and at_station
         action_pickup = action == 4
-        pickup = at_pickup == True and action_pickup
+        pickup = at_pickup and action_pickup
         if not_at_pickup:
             print("A:", visitsA, flush=True)
             visitsA += 1
             visitsA = min(visitsA, 3)
+        if pickup:
+            print("PICKUP", flush=True)
     else:
         at_station = state[0] == 0 and state[1] == 0
         at_dest = state[7] == 1 and at_station
@@ -117,6 +119,8 @@ def get_action(obs):
             visitsB += 1
             visitsB = min(visitsB, 3)
         if not pickup:
+            print("FINISH", flush=True)
+            print(at_dest, action_drop, steps, flush=True)
             pickup = False
             steps = 0
             visitsA = 0
