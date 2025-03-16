@@ -4,7 +4,7 @@ import pickle
 import random
 import gym
 
-with open("qqqqqq.pkl", "rb") as file:
+with open("qqqqqqqq.pkl", "rb") as file:
     q_table = pickle.load(file)
 steps = 0
 pickup = False
@@ -91,56 +91,51 @@ def get_action(obs):
     else:
         p = softmax(q_table[state])
         action = np.random.choice(6, p=p)
-        if pickup and not (state[0] == 0 and state[1] == 0 and state[7] == 1):
-            while action == 5:
-                action = np.random.choice(6)
+    """if pickup and not (state[0] == 0 and state[1] == 0 and state[7] == 1):
+        if action == 5:
+            print(state, q_table[state])
+            print("jdfisojdf", flush=True)
+        while action == 5:
+            action = np.random.choice(6)
+    if not pickup and not (state[0] == 0 and state[1] == 0 and state[6] == 1):
+        while action == 4:
+            action = np.random.choice(6)
         '''if np.random.rand() < 0.000:
             action = np.random.choice(6)
         else:
-            action = np.argmax(q_table[state])'''
+            action = np.argmax(q_table[state])'''"""
     prevAction = action
     #print(state[6], flush=True)
-    '''if action == 4:
-        print("P", flush=True)
+    if action == 4:
+        print("P", pickup, flush=True)
     elif action ==5:
-        print("D", flush=True)'''
+        print("D", pickup, flush=True)
     if not pickup:
-        at_station = state[0] == 0 and state[1] == 0
+        at_station = (obs[0] == obs[2] and obs[1] == obs[3]) or (obs[0] == obs[4] and obs[1] == obs[5]) or (obs[0] == obs[6] and obs[1] == obs[7]) or (obs[0] == obs[8] and obs[1] == obs[9])
         at_pickup = state[6] == 1 and at_station
         not_at_pickup = state[6] != 1 and at_station
         action_pickup = action == 4
-        pickup = at_pickup and action_pickup
-        if not_at_pickup:
-            print("A:", visitsA, flush=True)
+        if state[0] == 0 and state[1] == 0 and not_at_pickup:
             visitsA += 1
             visitsA = min(visitsA, 3)
-        if pickup:
-            print("PICKUP", flush=True)
-            print(at_pickup, action_pickup, steps, flush=True)
-            print((obs[0], obs[1]), (obs[2], obs[3]), (obs[4], obs[5]), (obs[6], obs[7]), (obs[8], obs[9]), (obs[14], obs[15]), flush=True)
-            return 4
+        if at_pickup and action_pickup:
+            pickup = True
     else:
-        '''if state[6] != 1:
-            print("www", flush=True)'''
-        at_station = state[0] == 0 and state[1] == 0
+        at_station = (obs[0] == obs[2] and obs[1] == obs[3]) or (obs[0] == obs[4] and obs[1] == obs[5]) or (obs[0] == obs[6] and obs[1] == obs[7]) or (obs[0] == obs[8] and obs[1] == obs[9])
         at_dest = state[7] == 1 and at_station
         not_at_dest = state[7] != 1 and at_station
         action_drop = action == 5
-        pickup = not (at_dest and action_drop)
-        if not_at_dest:
-            print("B:", visitsB, flush=True)
+        if state[0] == 0 and state[1] == 0 and not_at_dest:
             visitsB += 1
             visitsB = min(visitsB, 3)
-        if not pickup:
-            print("FINISH", flush=True)
-            print(at_dest, action_drop, steps, flush=True)
-            print((obs[0], obs[1]), (obs[2], obs[3]), (obs[4], obs[5]), (obs[6], obs[7]), (obs[8], obs[9]), (obs[14], obs[15]), flush=True)
-            pickup = False
-            steps = 0
-            visitsA = 0
-            visitsB = 0
-            prevAction = 0
-            return 5
+        if at_dest:
+            if action_drop:
+                pickup = False
+        elif not_at_dest:
+            if action_drop:
+                pickup = False
+                visitsA = 0
+                visitsB = 0
     if steps >= 5000:
         pickup = False
         steps = 0
