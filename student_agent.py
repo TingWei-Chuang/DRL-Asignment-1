@@ -91,11 +91,19 @@ def get_action(obs):
     else:
         p = softmax(q_table[state])
         action = np.random.choice(6, p=p)
+        if pickup and not (state[0] == 0 and state[1] == 0 and state[7] == 1):
+            while action == 5:
+                action = np.random.choice(6)
         '''if np.random.rand() < 0.000:
             action = np.random.choice(6)
         else:
             action = np.argmax(q_table[state])'''
     prevAction = action
+    #print(state[6], flush=True)
+    '''if action == 4:
+        print("P", flush=True)
+    elif action ==5:
+        print("D", flush=True)'''
     if not pickup:
         at_station = state[0] == 0 and state[1] == 0
         at_pickup = state[6] == 1 and at_station
@@ -108,8 +116,12 @@ def get_action(obs):
             visitsA = min(visitsA, 3)
         if pickup:
             print("PICKUP", flush=True)
+            print(at_pickup, action_pickup, steps, flush=True)
+            print((obs[0], obs[1]), (obs[2], obs[3]), (obs[4], obs[5]), (obs[6], obs[7]), (obs[8], obs[9]), (obs[14], obs[15]), flush=True)
             return 4
     else:
+        '''if state[6] != 1:
+            print("www", flush=True)'''
         at_station = state[0] == 0 and state[1] == 0
         at_dest = state[7] == 1 and at_station
         not_at_dest = state[7] != 1 and at_station
