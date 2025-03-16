@@ -103,6 +103,7 @@ def get_action(obs):
         action_pickup = action == 4
         pickup = at_pickup == True and action_pickup
         if not_at_pickup:
+            print(visitsA)
             visitsA += 1
             visitsA = min(visitsA, 3)
     else:
@@ -112,6 +113,7 @@ def get_action(obs):
         action_drop = action == 5
         pickup = not (at_dest and action_drop)
         if not_at_dest:
+            print(visitsB)
             visitsB += 1
             visitsB = min(visitsB, 3)
         if not pickup:
