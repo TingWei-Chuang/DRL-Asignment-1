@@ -89,28 +89,10 @@ def get_action(obs):
     if state not in q_table:
         action = np.random.choice(6) # Choose a random action
     else:
-        p = softmax(15 * q_table[state])
+        p = softmax(10 * q_table[state])
         action = np.random.choice(6, p=p)
         #action = np.argmax(q_table[state])
-    """if pickup and not (state[0] == 0 and state[1] == 0 and state[7] == 1):
-        if action == 5:
-            print(state, q_table[state])
-            print("jdfisojdf", flush=True)
-        while action == 5:
-            action = np.random.choice(6)
-    if not pickup and not (state[0] == 0 and state[1] == 0 and state[6] == 1):
-        while action == 4:
-            action = np.random.choice(6)
-        '''if np.random.rand() < 0.000:
-            action = np.random.choice(6)
-        else:
-            action = np.argmax(q_table[state])'''"""
     prevAction = action
-    #print(state[6], flush=True)
-    if action == 4:
-        print("P", pickup, flush=True)
-    elif action ==5:
-        print("D", pickup, flush=True)
     if not pickup:
         at_station = (obs[0] == obs[2] and obs[1] == obs[3]) or (obs[0] == obs[4] and obs[1] == obs[5]) or (obs[0] == obs[6] and obs[1] == obs[7]) or (obs[0] == obs[8] and obs[1] == obs[9])
         at_pickup = state[6] == 1 and at_station
